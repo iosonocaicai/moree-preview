@@ -57,7 +57,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .btn.ghost{background:#fff;color:var(--ink)!important;box-shadow:inset 0 0 0 1.5px var(--line)}
 .btn.sm{min-height:42px;padding:0 20px;font-size:15px}
 .nav-links .btn{padding:0 20px}
-@media (max-width:620px){.nav-links a:not(.btn){display:none}.logo .ipa{display:none}}
+@media (max-width:620px){.nav-links a:not(.btn){font-size:13px;padding:8px 10px}.nav-links .btn{padding:0 14px;font-size:13px}.logo .ipa{display:none}.nav-links{gap:2px}}
+@media (max-width:360px){.nav-links a:not(.btn){padding:8px 6px}}
 
 /* ───────── shared section bits ───────── */
 .wrap{width:min(1200px,100% - 40px);margin-inline:auto}
@@ -113,3 +114,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .badge span{display:flex;flex-direction:column;line-height:1.05;text-align:left}
 .badge small{font-size:10.5px;letter-spacing:.02em;opacity:.9}
 .badge b{font-size:20px;font-weight:600;letter-spacing:-.01em}
+
+html,body{overflow-x:hidden}
+body{position:relative}
+main{overflow-x:clip}
+.aura{inset:-10vmax 0!important}

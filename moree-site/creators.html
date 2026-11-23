@@ -206,6 +206,7 @@ details p{margin:0;padding:0 4px 24px;color:var(--ink-2);max-width:60ch}
 .board .dk-mo{position:absolute;width:64px;left:auto;right:6%;top:-48px;z-index:0;rotate:10deg}
 @media (max-width:860px){.board .panel{grid-template-columns:1fr;padding:0}.board .deck{width:100%;margin:0;bottom:auto}.board .dtag.t1{left:-6%}.board .dtag.t2{right:-6%}.board .dk-mo{display:block;width:52px;top:-36px}}
 .getpill .gp-box{box-shadow:0 0 0 1px rgba(255,255,255,.22),0 14px 30px -12px rgba(0,0,0,.5)}
+@media (max-width:700px){.at{width:clamp(64px,19vw,84px)}.arc-hero{height:max(100svh,640px)}.arc-copy h1{font-size:clamp(40px,11vw,56px)}.hsay{left:auto;right:calc(100% + 10px);top:-40px;border-radius:1em 1em .25em 1em;transform-origin:100% 100%}}
 </style>
 </head>
 <body>
@@ -301,7 +302,7 @@ document.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>
 <script>
 (()=>{const hero=document.getElementById('arcHero'),tiles=[...document.querySelectorAll('#arc .at')],N=tiles.length;
 let off=0,last=performance.now(),vis=true;new IntersectionObserver(([e])=>vis=e.isIntersecting).observe(hero);
-function lay(){const W=hero.clientWidth,H=hero.clientHeight,R=Math.min(W*.46,H*.78),cx=W/2,cy=H*.98;
+function lay(){const W=hero.clientWidth,H=hero.clientHeight,mob=W<700,cp=hero.querySelector('.arc-copy'),R=mob?W*.6:Math.min(W*.46,H*.78),cx=W/2,cy=mob?cp.offsetTop+10:H*.98;
 tiles.forEach((t,i)=>{let a=((i/N)+off)%1;const ang=Math.PI*(1+a*2);// full circle; only top half visible
 const x=cx+R*Math.cos(ang),y=cy+R*Math.sin(ang)*1.02,deg=ang*57.3+90,s=t.offsetWidth;
 const fade=Math.max(0,Math.min(1,(cy-y)/(R*.25)));t.style.opacity=fade;
