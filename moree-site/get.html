@@ -162,6 +162,7 @@ body{background:linear-gradient(180deg,#FFE44D 0%,#FFF3A6 38%,#FFFDF4 72%,#fff 1
 @media (max-width:620px){.gb-say{display:none}.getb .arc-txt.top{margin-bottom:30px}}
 /* frame = photo size: no ghosting */
 .gb-stage{--fs:min(28vh,240px)}
+.gb-stage .fs-row{width:max-content}
 .gb-stage .fs-row{height:var(--fs)}
 .gb-stage .fs-win{width:var(--fs);height:var(--fs)}
 .gb-stage .fs-frame,.gb-qr{width:calc(var(--fs) + 24px);height:calc(var(--fs) + 24px)}
@@ -213,7 +214,7 @@ body{background:linear-gradient(180deg,#FFE44D 0%,#FFF3A6 38%,#FFFDF4 72%,#fff 1
 <script>
 (()=>{const P=["photo-02", "photo-07", "window-a", "photo-03", "spare-cheers", "photo-10", "app-sunset", "photo-06", "photo-05", "window-c", "photo-01", "spare-toast", "photo-08", "app-cat", "photo-09", "spare-party", "photo-04", "window-b"];const t=document.querySelector('.gb-title .ip-in img');let k=0;setInterval(()=>{t.src='img/'+P[k++%P.length]+'.jpg'},650);
 const win=document.querySelector('.getb .fs-win'),inn=document.getElementById('gbIn');
-function sync(){const r=win.getBoundingClientRect();inn.style.setProperty('--off',(-r.left)+'px')}sync();addEventListener('resize',sync);addEventListener('load',sync);
+function sync(){const r=win.getBoundingClientRect(),d=document.getElementById('gbDim').parentElement.getBoundingClientRect();inn.style.setProperty('--off',(d.left-r.left)+'px')}sync();addEventListener('resize',sync);addEventListener('load',sync);
 const typed=document.getElementById('gbTyped'),pill=document.getElementById('gbPill'),cur=document.getElementById('gbCur'),qr=document.getElementById('gbQr');
 const mo=document.getElementById('gbMo'),say=document.getElementById('gbSay');const sleep=ms=>new Promise(r=>setTimeout(r,ms));let hold=false;
 async function intro(){pill.style.opacity=0;cur.style.opacity=0;await sleep(120);qr.classList.add('show');document.querySelector('.getb').classList.add('ready');await sleep(1300);mo.classList.add('hop');say.classList.add('show');await sleep(2400);mo.classList.remove('hop');say.classList.remove('show');await sleep(2200)}
