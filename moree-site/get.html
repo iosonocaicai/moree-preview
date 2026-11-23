@@ -160,6 +160,15 @@ body{background:linear-gradient(180deg,#FFE44D 0%,#FFF3A6 38%,#FFFDF4 72%,#fff 1
 .gb-qr{filter:drop-shadow(0 18px 30px rgba(120,90,0,.22))}
 .gb-stage .fs-frame{filter:drop-shadow(0 6px 14px rgba(120,90,0,.18))}
 @media (max-width:620px){.gb-say{display:none}.getb .arc-txt.top{margin-bottom:30px}}
+/* frame = photo size: no ghosting */
+.gb-stage{--fs:min(28vh,240px)}
+.gb-stage .fs-row{height:var(--fs)}
+.gb-stage .fs-win{width:var(--fs);height:var(--fs)}
+.gb-stage .fs-frame,.gb-qr{width:calc(var(--fs) + 24px);height:calc(var(--fs) + 24px)}
+.gb-qr img{width:calc(var(--fs) * .74)!important}
+.gb-stage .fs-mo{left:calc(50% + var(--fs) * .18);top:calc(50% - var(--fs) / 2 - 12px - min(48px,6vh))}
+.gb-say{left:calc(50% + var(--fs) * .18 + 70px);top:calc(50% - var(--fs) / 2 - 12px - 76px)}
+@media (max-width:620px){.gb-stage{--fs:min(26vh,58vw)}}
 </style>
 </head>
 <body>

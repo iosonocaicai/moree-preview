@@ -84,7 +84,8 @@ function talk(b) {
   if (speaker && speaker !== b) { speaker.classList.remove('talk'); clearTimeout(speaker._s); }
   speaker = b;
   const line = nextLine(b); b.querySelector('.say-b').textContent = line; b._line = line;
-  clearTimeout(b._s); b._s = setTimeout(() => b.classList.add('talk'), 300);
+  clearTimeout(b._s); const sb = b.querySelector('.say-b'); sb.style.translate = '0 0';
+  b._s = setTimeout(() => { b.classList.add('talk'); setTimeout(() => { const r = sb.getBoundingClientRect(), W = document.documentElement.clientWidth; let dx = 0; if (r.right > W - 8) dx = W - 8 - r.right; if (r.left + dx < 8) dx = 8 - r.left; if (dx) sb.style.translate = dx + 'px 0'; }, 420); }, 300);
 }
 function peek(b, { ms = 2400, say = false } = {}) {
   clearTimeout(b._t);
