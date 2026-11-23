@@ -31,7 +31,7 @@
 @keyframes bob{50%{transform:translateY(-6px) rotate(-4deg)}}
 @media (max-width:900px){.c-hero{grid-template-columns:1fr;text-align:center;padding-top:100px}}
 /* intro strip */
-.strip{align-items:flex-start;display:flex;gap:clamp(14px,1.6vw,24px);justify-content:center;margin-top:clamp(36px,5vh,60px);flex-wrap:nowrap;overflow:hidden;padding:10px 0 20px}
+.strip{align-items:flex-start;display:flex;gap:clamp(14px,1.6vw,24px);justify-content:center;margin-top:calc(clamp(36px,5vh,60px) - 40px);flex-wrap:nowrap;overflow:hidden;padding:50px 0 70px;margin-bottom:-50px}
 .strip .ph{width:clamp(130px,14vw,200px);flex:none}
 .strip .ph:nth-child(odd){rotate:-3deg;margin-top:22px}.strip .ph:nth-child(even){rotate:3deg}
 .intro-band .h2 em{font-style:normal;color:var(--yellow)}
