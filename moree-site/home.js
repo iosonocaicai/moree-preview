@@ -32,7 +32,7 @@ function addComment(k, text, likes = 0, time = 'now') {
   const c = cast[k];
   const el = document.createElement('div');
   el.className = 'cmt';
-  el.innerHTML = `<span class="ava" style="background:${c.bg}"><img src="${c.img}" alt=""><i style="background:${c.who[1]}">${c.who[0]}</i></span><div><b>${c.name}<small>${time}</small></b><span class="tx"></span><span class="rp"><span>Reply</span><span>···</span></span></div><span class="hv">${HEART}<span>${likes || ''}</span></span>`;
+  el.innerHTML = `<span class="ava" style="background:${c.bg}"><img src="${c.img}" alt=""><i style="background:#ddd url(img/av-${c.who[0]}.jpg) center/cover"></i></span><div><b>${c.name}<small>${time}</small></b><span class="tx"></span><span class="rp"><span>Reply</span><span>···</span></span></div><span class="hv">${HEART}<span>${likes || ''}</span></span>`;
   el.querySelector('.tx').textContent = text;
   comments.append(el);
   while (comments.children.length > 3) comments.firstChild.remove();
@@ -165,7 +165,8 @@ function tween(a, b, dur) {
 }
 
 async function runIntro() {
-  if (reduce || location.hash) { settle(); return; }
+  let seen = false; try { seen = localStorage.getItem('moreeIntro') === '1'; localStorage.setItem('moreeIntro', '1'); } catch {}
+  if (reduce || location.hash || seen) { settle(); return; }
   toTop();
   lock(true); body.classList.add('intro-run');
   await Promise.race([Promise.all(seq.map(preload)), sleep(2200)]);
@@ -200,7 +201,11 @@ async function runIntro() {
   await sleep(90);
   shutter.classList.add('press'); fw.classList.remove('go'); void fw.offsetWidth; fw.classList.add('go');
   await sleep(150); shutter.classList.remove('press');
+  // keep the photo in place: glide it from the viewfinder to its spot in the post
+  const pic = scrPost.querySelector('.pic'), from = finder.getBoundingClientRect();
   scrCam.classList.add('off'); scrPost.classList.add('on');
+  const to = pic.getBoundingClientRect();
+  pic.animate([{ transform: `translate(${from.left - to.left}px,${from.top - to.top}px) scale(${from.width / to.width})`, transformOrigin: '0 0' }, { transform: 'none', transformOrigin: '0 0' }], { duration: 520, easing: 'cubic-bezier(.22,1,.36,1)' });
   await sleep(260);
   await typeTake();
   if (skipped) return;
@@ -289,19 +294,10 @@ function flyPlane() {
   fly.style.opacity = u > .97 ? 0 : '';
   fly.style.transform = `translate3d(${x - pw / 2}px,${y - pw / 2}px,0) rotate(${fr}deg) scaleX(${lastFs}) scale(${k})`;
 }
-$('#copy').addEventListener('click', async e => {
-  try { await navigator.clipboard.writeText($('#code').textContent); e.target.textContent = 'Copied!'; }
-  catch { e.target.textContent = 'MIA7K2Q9'; }
-  setTimeout(() => e.target.textContent = 'Copy', 1600);
-});
 
-/* ---------- 03 days (horizontal pin) ---------- */
-const days = $('#days'), track = $('#track');
-let over = 0;
-function sizeDays() {
-  over = Math.max(0, track.scrollWidth - innerWidth);
-  days.style.setProperty('--days-h', `${innerHeight + over}px`);
-}
+
+function sizeDays() {}
+
 
 /* ---------- scroll loop ---------- */
 const getpill = $('#getpill'), closingEl = $('#closing');
@@ -314,10 +310,6 @@ function onScroll() {
   const pr = clamp((vh - ri.top) / (vh * .9));
   cards.style.setProperty('--rise', pr.toFixed(3));
   flyPlane();
-  // days
-  const rd = days.getBoundingClientRect();
-  const pd = over ? clamp(-rd.top / over) : 0;
-  track.style.transform = `translate3d(${-pd * over}px,0,0)`;
 }
 let ticking = false;
 addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { onScroll(); ticking = false; }); } }, { passive: true });
@@ -387,7 +379,7 @@ function initPile() {
     Bodies.rectangle(-T / 2, H / 2 - H, T, H * 5, { isStatic: true }),
     Bodies.rectangle(W + T / 2, H / 2 - H, T, H * 5, { isStatic: true })
   ]);
-  const photos = ['photo-01','photo-02','photo-03','photo-04','photo-05','photo-06','photo-07','photo-08','photo-09','photo-10','app-cat','app-sunset','app-breakfast','sunset-window','sunset-rooftop'];
+  const photos = ['photo-01','photo-02','photo-03','photo-04','photo-05','photo-06','photo-07','photo-08','photo-09','photo-10','app-cat','app-sunset','app-breakfast','window-a','window-c'];
   const chars = ['yellow','black','green','purple','orange'];
   const small = W < 640;
   const base = small ? Math.max(64, W / 5.4) : Math.min(165, Math.max(100, W / 10.5));
@@ -398,8 +390,8 @@ function initPile() {
   const qrAt = Math.floor(count * .55);
   let guide = null;
   function spawn(i) {
-    const kind = i === qrAt ? 'qr' : i === qrAt + 1 ? 'guide' : i % 5 === 2 ? 'ch' : 'ph';
-    const sz = kind === 'qr' ? base * 1.25 : kind === 'ch' ? base * rnd(.36, .44) : kind === 'guide' ? base * .5 : base * rnd(.84, 1.16);
+    const kind = i === qrAt ? 'qr' : i % 5 === 2 ? 'ch' : 'ph';
+    const sz = kind === 'qr' ? base * 1.25 : kind === 'ch' ? base * rnd(.36, .44) : kind === 'guide' ? base * .78 : base * rnd(.84, 1.16);
     const node = document.createElement('div');
     node.className = 'b ' + (kind === 'ch' || kind === 'guide' ? 'ch' : 'sq-frame') + (kind === 'qr' ? ' qr' : '') + (kind === 'guide' ? ' guide' : '');
     node.style.width = node.style.height = sz + 'px';
@@ -423,9 +415,8 @@ function initPile() {
       node.setAttribute('role', 'link'); node.setAttribute('aria-label', 'Get moree'); node.tabIndex = 0;
       node.addEventListener('keydown', e => { if (e.key === 'Enter') location.href = 'get.html'; });
     }
-    if (kind === 'guide') {
-      guide = it;
-      const tip = document.createElement('span'); tip.className = 'tip'; tip.textContent = 'tap me → get moree';
+    if (kind === 'qr') {
+      const tip = document.createElement('a'); tip.className = 'tip'; tip.href = 'get.html'; tip.innerHTML = 'Scan to download moree <span aria-hidden="true">↓</span>';
       el.append(tip); it.tip = tip;
       setTimeout(() => tip.classList.add('show'), 1800);
     }

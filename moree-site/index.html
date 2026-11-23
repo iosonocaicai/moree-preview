@@ -10,6 +10,7 @@
 /* ═════════ HERO ═════════ */
 .hero{position:relative;--pw:clamp(270px,min(27vw,calc((100svh - 340px)/1.45)),410px);--F:clamp(44px,min(6.2vw,9.4vh),110px);display:flex;flex-direction:column;align-items:center;text-align:center;padding:118px 20px 80px;overflow:hidden}
 .hero-sub{font-size:clamp(17px,1.4vw,20px);color:var(--ink-2);margin:0 0 14px;opacity:0;transform:translateY(12px);transition:all .8s var(--ease) .1s}
+.hero-get .badges{justify-content:center}
 .hero-get{display:flex;gap:10px;justify-content:center;margin-top:26px;opacity:0;transform:translateY(10px);transition:all .8s var(--ease) .5s;position:relative;z-index:5}
 .ready .hero-get{opacity:1;transform:none}
 .mini{display:inline-flex;align-items:center;gap:9px;height:50px;padding:0 22px;border-radius:99px;font-size:16px;font-weight:600;text-decoration:none;color:var(--ink);background:rgba(255,255,255,.7);box-shadow:inset 0 0 0 1px var(--line);backdrop-filter:blur(8px);transition:transform .3s var(--spring),background .2s}
@@ -73,9 +74,9 @@
 @keyframes fw{0%{opacity:0}15%{opacity:1}100%{opacity:0}}
 
 /* post screen */
-.post{opacity:0;transform:translateX(8%);display:flex;flex-direction:column;padding-top:3.5em;padding-bottom:.9em;text-align:left}
-.post.on{opacity:1;transform:none}
-.cam.off{opacity:0;transform:translateX(-8%)}
+.post{opacity:0;transition:opacity .35s ease;display:flex;flex-direction:column;padding-top:3.5em;padding-bottom:.9em;text-align:left}
+.post.on{opacity:1}
+.cam.off{opacity:0;transition:opacity .25s ease}
 .post .bar{display:flex;justify-content:space-between;align-items:center;padding:.4em 1em}
 .who{display:flex;align-items:center;gap:.45em;font-weight:600;font-size:.95em}
 .av{width:1.6em;height:1.6em;border-radius:50%;object-fit:cover;flex:none}
@@ -177,7 +178,8 @@
 .pile .b.qr .sq .sq{background:#fff;display:grid;place-items:center}
 .pile .b.qr .sq img{width:74%;height:74%;object-fit:contain}
 .pile .b.guide{cursor:pointer}
-.pile .tip{position:absolute;left:0;top:0;z-index:6;background:#fff;border-radius:1em;padding:.3em .8em .35em;font-family:var(--hand);font-size:18px;white-space:nowrap;box-shadow:0 6px 18px -6px rgba(0,0,0,.25);pointer-events:none;opacity:0;transition:opacity .4s}
+.pile .tip{position:absolute;left:0;top:0;z-index:6;background:var(--ink);color:#fff;text-decoration:none;border-radius:99px;padding:9px 16px;font-size:15px;font-weight:600;white-space:nowrap;box-shadow:0 10px 24px -8px rgba(0,0,0,.4);opacity:0;transition:opacity .4s;cursor:pointer}
+.pile .tip:hover{background:#000}
 .pile .tip.show{opacity:1}
 .pile-hint{position:absolute;z-index:5;left:0;right:0;top:6px;text-align:center;font-size:14px;color:var(--ink-2);pointer-events:none;opacity:0;transition:opacity .6s 2.5s}
 .pile.live .pile-hint{opacity:1}
@@ -214,12 +216,15 @@
 .invite{position:relative;aspect-ratio:1/1.05;max-width:min(520px,60vh);margin:0 auto;width:100%}
 .env{position:absolute;left:12%;right:12%;bottom:14%;aspect-ratio:605/624}
 .env img{position:absolute;inset:0;width:100%;height:100%}
-.env .front{clip-path:inset(56.5% 0 0 0)}
+.env .front{clip-path:inset(58.2% 0 0 0);z-index:2}
 .cardclip{position:absolute;left:4%;right:4%;top:-45%;bottom:5.5%;overflow:hidden}
 .cardclip .cards{position:absolute;left:0;width:100%;height:auto;bottom:auto;top:calc(68% - var(--rise,0)*32%);transition:top .2s linear}
 .env .who{position:absolute;left:50%;bottom:14%;transform:translateX(-50%);background:#fff;border-radius:99px;padding:6px 14px 6px 6px;font-size:14px;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.1);z-index:3;display:flex;align-items:center;gap:8px}
 .env .who .av{width:26px;height:26px}
 .codebox{position:absolute;left:50%;bottom:-26px;transform:translateX(-50%);background:#fff;border-radius:22px;padding:14px 16px 14px 22px;display:flex;align-items:center;gap:18px;box-shadow:0 14px 30px -12px rgba(0,0,0,.25);white-space:nowrap}
+.codebox .av{width:40px;height:40px;flex:none}
+.cb-how{font-size:12.5px;color:var(--muted);line-height:1.35;padding-left:16px;border-left:1px solid var(--line)}
+.cb-how b{color:var(--ink-2);font-weight:600}
 .codebox small{display:block;font-size:12px;color:var(--muted)}
 .codebox strong{font-family:var(--dot);font-size:24px;letter-spacing:.08em}
 .copy{border:0;background:var(--ink);color:#fff;border-radius:99px;padding:9px 16px;font-size:14px;font-weight:600}
@@ -238,24 +243,40 @@
 @media (max-width:900px){.friends .wrap{grid-template-columns:1fr}.invite{margin-top:30px}}
 
 /* ═════════ 03 · DAYS (horizontal pin) ═════════ */
-.days{position:relative;height:var(--days-h,300vh)}
-.days-pin{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:4vh}
-.days-head{width:min(1200px,100% - 40px);margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
-.days-head .h2{margin-bottom:0}
-.track{display:flex;align-items:center;gap:clamp(22px,3vw,44px);padding:4vh max(20px,calc((100vw - 1200px)/2));will-change:transform}
-.moment{flex:none;width:clamp(170px,min(20vw,27vh),290px);position:relative}
-.moment:nth-child(odd){margin-top:6vh}
-.moment:nth-child(3n){margin-top:-4vh}
-.moment .when{display:block;font-size:clamp(15px,1.3vw,18px);color:var(--ink-2);margin-bottom:10px}
+.days{padding:clamp(64px,10vh,120px) 0}
+.days-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
+.grid10{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(30px,3.4vw,48px) clamp(16px,2vw,30px);margin-top:clamp(36px,5vh,60px);max-width:min(100%,126vh);margin-left:auto;margin-right:auto}
+.grid10 .moment{width:auto;margin:0!important;opacity:0;transform:translateY(24px) rotate(var(--rt,0deg));transition:opacity .7s var(--ease),transform .9s var(--spring)}
+.grid10 .moment:nth-child(2){transition-delay:.06s}.grid10 .moment:nth-child(3){transition-delay:.12s}.grid10 .moment:nth-child(4){transition-delay:.18s}.grid10 .moment:nth-child(5){transition-delay:.24s}.grid10 .moment:nth-child(6){transition-delay:.3s}.grid10 .moment:nth-child(7){transition-delay:.36s}.grid10 .moment:nth-child(8){transition-delay:.42s}.grid10 .moment:nth-child(9){transition-delay:.48s}.grid10 .moment:nth-child(10){transition-delay:.54s}
+.grid10.in .moment{opacity:1;transform:rotate(var(--rt,0deg))}
+.grid10 .moment:nth-child(odd){--rt:-2deg}.grid10 .moment:nth-child(3n){--rt:2deg}
+.grid10 .moment:hover{transform:translateY(-6px) rotate(0)!important}
+.grid10 .moment{position:relative}
+.moment .when{display:block;font-size:clamp(12px,1vw,14px);color:var(--ink-2);margin-bottom:10px}
 .moment .pic{position:relative;height:0;padding-bottom:100%}
 .moment .pic>.sq{position:absolute;inset:0}
-.moment .pic .sq{width:100%;height:100%}
-.moment .by{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);width:38px;height:38px;border-radius:50%;border:3px solid #fff;display:grid;place-items:center;color:#fff;font-weight:700;font-size:14px;box-shadow:0 2px 6px rgba(0,0,0,.15)}
-.moment.wide{width:clamp(220px,min(28vw,37vh),390px)}
-.moment.wide .pic{aspect-ratio:1.3}
-.note{width:100%;height:100%;background:var(--yellow-soft);padding:16% 16%;font-family:var(--hand);font-size:clamp(18px,1.5vw,22px);line-height:1.2;background-image:repeating-linear-gradient(transparent 0 1.35em,rgba(180,150,40,.18) 1.35em calc(1.35em + 1px));display:flex;flex-direction:column;justify-content:space-between}
-.note small{font-family:var(--sans);font-size:13px;color:var(--ink-2)}
-.track .tag{flex:none;font-family:var(--hand);font-size:clamp(20px,1.7vw,24px);color:var(--ink-2);white-space:nowrap;padding:0 2vw}
+.moment .by{position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);width:34px;height:34px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.note{width:100%;height:100%;background:var(--yellow-soft);padding:16%;font-family:var(--hand);font-size:clamp(18px,1.5vw,22px);line-height:1.2;display:flex;flex-direction:column;justify-content:space-between;background-image:repeating-linear-gradient(transparent 0 1.35em,rgba(180,150,40,.18) 1.35em calc(1.35em + 1px))}
+.note small{font-family:var(--sans);font-size:12px;color:var(--ink-2)}
+.g-tag{text-align:center;font-family:var(--hand);font-size:clamp(18px,1.5vw,22px);color:var(--ink-2);margin:clamp(30px,4vh,50px) 0 0}
+@media (max-width:820px){.grid10{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* 03 zipper timeline */
+.grid10{grid-template-columns:repeat(11,minmax(0,1fr));grid-template-rows:auto 74px auto;gap:0 clamp(10px,1.2vw,18px);max-width:min(100%,120vh);position:relative}
+.grid10::before{content:"";grid-column:1/-1;grid-row:2;align-self:center;height:2px;background:repeating-linear-gradient(90deg,var(--ink) 0 6px,transparent 6px 12px);opacity:.25}
+.grid10 .moment{grid-column:var(--c)/span 2;display:flex;flex-direction:column;align-items:center}
+.grid10 .moment .pic{width:100%}
+.grid10 .moment:nth-child(odd){grid-row:1;--rt:-1.5deg}
+.grid10 .moment:nth-child(even){grid-row:3;--rt:1.5deg}
+.grid10 .moment:nth-child(3n){--rt:2deg}
+.grid10 .moment:nth-child(odd) .when{order:2;margin:22px 0 0}
+.grid10 .moment:nth-child(even) .when{margin:0 0 14px}
+.grid10 .moment:nth-child(even) .pic{order:2}
+.grid10 .moment .by{z-index:3}
+.grid10 .moment .when{position:relative;padding:3px 9px;background:var(--bg,#faf7f2);border-radius:99px}
+.grid10 .moment:nth-child(even) .by{bottom:-12px}
+.grid10 .moment:nth-child(1){--c:1}.grid10 .moment:nth-child(2){--c:2}.grid10 .moment:nth-child(3){--c:3}.grid10 .moment:nth-child(4){--c:4}.grid10 .moment:nth-child(5){--c:5}.grid10 .moment:nth-child(6){--c:6}.grid10 .moment:nth-child(7){--c:7}.grid10 .moment:nth-child(8){--c:8}.grid10 .moment:nth-child(9){--c:9}.grid10 .moment:nth-child(10){--c:10}
+@media (max-width:820px){.grid10{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;gap:34px 16px}.grid10::before{display:none}.grid10 .moment{grid-column:auto!important;grid-row:auto!important;margin:0!important}.grid10 .moment .when{order:0!important;margin:0 0 10px!important}.grid10 .moment .pic{order:1!important}}
+
 
 /* album card */
 .album{padding:clamp(64px,10vh,120px) 0}
@@ -370,6 +391,54 @@
 .closing.in .lineup button:nth-child(2){transition-delay:.06s}.closing.in .lineup button:nth-child(3){transition-delay:.12s}.closing.in .lineup button:nth-child(4){transition-delay:.18s}.closing.in .lineup button:nth-child(5){transition-delay:.24s}
 .closing{border-bottom:none}
 .closing .lineup{position:relative;z-index:1}
+
+/* 03 day dial */
+.days-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(30px,5vw,80px);align-items:center}
+.days-copy .lede{margin-top:18px}
+.days-copy .lede+.lede{margin-top:4px}
+.days-copy .g-tag{text-align:left;margin-top:28px}
+.dial{--R:min(15.5vw,30vh,250px);--s:min(6.6vw,13vh,108px);position:relative;width:calc(var(--R)*2 + var(--s) + 20px);aspect-ratio:1;justify-self:center}
+.dl-ring{position:absolute;inset:calc(var(--s)/2 + 10px);border-radius:50%;border:2px dashed rgba(20,20,19,.16)}
+.dl-h{position:absolute;font-size:11px;color:var(--muted);transform:translate(-50%,-50%)}
+.dl-h.h0{left:50%;top:calc(var(--s)/2 + 30px)}.dl-h.h12{left:50%;bottom:calc(var(--s)/2 + 22px);top:auto;transform:translateX(-50%)}
+.dl-h.h6{right:calc(var(--s)/2 + 22px);top:50%;transform:translateY(-50%)}.dl-h.h18{left:calc(var(--s)/2 + 30px);top:50%}
+.dial .dl-it{position:absolute;left:50%;top:50%;width:var(--s);margin:0!important;transform:translate(-50%,-50%) rotate(var(--a)) translateY(calc(var(--R) * -1)) rotate(calc(var(--a) * -1));transition:transform .5s var(--spring),filter .3s;cursor:pointer;z-index:2}
+.dial .dl-it .when{display:none}
+.dial .dl-it .pic{position:relative;height:0;padding-bottom:100%}
+.dial .dl-it .by{width:26px;height:26px;bottom:-10px;border-width:2px}
+.dial .dl-it .note{font-size:13px;padding:14%}.dial .dl-it .note small{display:none}
+.dial .dl-it.on{transform:translate(-50%,-50%) rotate(var(--a)) translateY(calc(var(--R) * -1)) rotate(calc(var(--a) * -1)) scale(1.14);z-index:3}
+.dial .dl-it.on .pic{filter:drop-shadow(0 0 0 #000) drop-shadow(0 10px 18px rgba(0,0,0,.25))}
+.dial .dl-it.on .pic::after{content:"";position:absolute;inset:-7px;clip-path:url(#squircle);background:var(--yellow);z-index:-1}
+.dl-center{position:absolute;left:50%;top:50%;width:calc(var(--R)*1.05);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;z-index:1}
+.dl-center .when{font-size:14px;color:var(--ink);background:#fff;border-radius:99px;padding:4px 12px;margin-bottom:12px;box-shadow:0 6px 16px -8px rgba(0,0,0,.25)}
+.dl-center .pic{position:relative;width:100%;height:0;padding-bottom:100%}
+.dl-center .pic>.sq{position:absolute;inset:0}
+.dl-center #dlPic.note{font-size:clamp(22px,2vw,30px)}.dl-center #dlPic>img{width:100%;height:100%;object-fit:cover;animation:dlIn .5s var(--spring)}
+.dl-center .by{position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.15);z-index:2}
+@keyframes dlIn{from{opacity:0;transform:scale(1.06)}}
+.dl-zz{position:absolute;left:calc(50% + var(--R)*.55);top:calc(50% - var(--R)*.95);width:calc(var(--s)*.62);z-index:2}
+.dl-zz img{width:100%;display:block;transform:rotate(-8deg)}
+.dl-zz span{position:absolute;left:80%;top:-8px;font-family:var(--hand);font-size:17px;color:var(--ink-2);animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-5px)}}
+@media (max-width:860px){.days-grid{grid-template-columns:1fr}.dial{--R:34vw;--s:15vw;margin-top:10px}.days-copy .g-tag{text-align:center}}
+
+/* 03 photo strip */
+.days{padding:clamp(64px,10vh,120px) 0!important}
+.dstrip{overflow:hidden;margin-top:clamp(36px,6vh,70px);padding:16px 0 34px}
+.dtrack{display:flex;gap:clamp(18px,2vw,30px);width:max-content;animation:dmarq 70s linear infinite;align-items:flex-start}
+.dstrip:hover .dtrack{animation-play-state:paused}
+@keyframes dmarq{to{transform:translateX(-50%)}}
+.dy{margin:0;width:clamp(150px,15vw,230px);flex:none;display:flex;flex-direction:column;align-items:center;transition:transform .5s var(--spring)}
+.dy:nth-child(odd){rotate:-3deg;margin-top:46px}.dy:nth-child(even){rotate:3deg}
+.dy:hover{transform:translateY(-8px) scale(1.03)}
+.dy .when{font-size:clamp(11px,.9vw,13px);color:var(--ink-2);margin-bottom:10px}
+.dy .pic{position:relative;width:100%;height:0;padding-bottom:100%}
+.dy .pic>.sq{position:absolute;inset:0}
+.dy .pic img{width:100%;height:100%;object-fit:cover}
+.dy .note{font-size:clamp(18px,1.6vw,24px)}
+.dy .by{position:absolute;left:50%;bottom:-13px;transform:translateX(-50%);width:34px;height:34px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.15);z-index:2}
+.days .g-tag{text-align:center}
 </style>
 </head>
 <body>
@@ -395,23 +464,23 @@
 <!-- ═════════ HERO ═════════ -->
 <section class="hero" id="hero">
     <div class="scatter" aria-hidden="true">
-    <figure class="scat m" style="--x:3%;--y:15vh;--r:-8deg;--d:0.18;--k:1.0;--i:0"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-02.jpg" alt="" loading="lazy"></div></div></div><span class="when">NOV.12 08:14</span><span class="by" style="background:#2f5b3b">L</span></figure>
-    <figure class="scat " style="--x:14%;--y:33vh;--r:6deg;--d:0.32;--k:0.82;--i:1"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-09.jpg" alt="" loading="lazy"></div></div></div><span class="by" style="background:#c9a100">T</span></figure>
-    <figure class="scat " style="--x:2.5%;--y:50vh;--r:-4deg;--d:0.24;--k:0.95;--i:2"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/app-breakfast.jpg" alt="" loading="lazy"></div></div></div><span class="when">NOV.12 09:02</span><span class="by" style="background:#26252a">J</span></figure>
-    <figure class="scat " style="--x:13%;--y:70vh;--r:7deg;--d:0.4;--k:1.08;--i:3"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-07.jpg" alt="" loading="lazy"></div></div></div><span class="by" style="background:#c9a100">T</span></figure>
-    <figure class="scat " style="--x:4%;--y:90vh;--r:-6deg;--d:0.3;--k:0.9;--i:4"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-04.jpg" alt="" loading="lazy"></div></div></div></figure>
-    <figure class="scat m" style="--x:85%;--y:13vh;--r:7deg;--d:0.22;--k:1.05;--i:5"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-03.jpg" alt="" loading="lazy"></div></div></div><span class="when">NOV.12 11:47</span><span class="by" style="background:#e4542a">R</span></figure>
-    <figure class="scat " style="--x:76%;--y:31vh;--r:-6deg;--d:0.34;--k:0.85;--i:6"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-10.jpg" alt="" loading="lazy"></div></div></div><span class="by" style="background:#5b8fb0">A</span></figure>
-    <figure class="scat " style="--x:86.5%;--y:49vh;--r:4deg;--d:0.2;--k:1.0;--i:7"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/app-sunset.jpg" alt="" loading="lazy"></div></div></div><span class="when">NOV.12 18:02</span><span class="by" style="background:#7a64b8">M</span></figure>
-    <figure class="scat " style="--x:76.5%;--y:69vh;--r:-9deg;--d:0.42;--k:0.9;--i:8"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-05.jpg" alt="" loading="lazy"></div></div></div></figure>
-    <figure class="scat " style="--x:85%;--y:88vh;--r:5deg;--d:0.28;--k:1.04;--i:9"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-06.jpg" alt="" loading="lazy"></div></div></div><span class="by" style="background:#e4542a">R</span></figure>
+    <figure class="scat m" style="--x:3%;--y:15vh;--r:-8deg;--d:0.18;--k:1.0;--i:0"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-02.jpg" alt="" loading="lazy"></div></div></div><span class="when">NOV.12 08:14</span><span class="by" style="background:#ddd url(img/av-L.jpg) center/cover" title="L"></span></figure>
+    <figure class="scat " style="--x:14%;--y:33vh;--r:6deg;--d:0.32;--k:0.82;--i:1"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-09.jpg" alt="" loading="lazy"></div></div></div><span class="by" style="background:#ddd url(img/av-T.jpg) center/cover" title="T"></span></figure>
+    <figure class="scat " style="--x:2.5%;--y:50vh;--r:-4deg;--d:0.24;--k:0.95;--i:2"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/spare-cheers.jpg" alt="" loading="lazy"></div></div></div><span class="when">NOV.12 09:02</span><span class="by" style="background:#ddd url(img/av-J.jpg) center/cover" title="J"></span></figure>
+    <figure class="scat " style="--x:13%;--y:70vh;--r:7deg;--d:0.4;--k:1.08;--i:3"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-07.jpg" alt="" loading="lazy"></div></div></div><span class="by" style="background:#ddd url(img/av-T.jpg) center/cover" title="T"></span></figure>
+    <figure class="scat " style="--x:4%;--y:90vh;--r:-6deg;--d:0.3;--k:0.9;--i:4"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-04.jpg" alt="" loading="lazy"></div></div></div><span class="by" style="background:#ddd url(img/av-A.jpg) center/cover" title="A"></span></figure>
+    <figure class="scat m" style="--x:85%;--y:13vh;--r:7deg;--d:0.22;--k:1.05;--i:5"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-03.jpg" alt="" loading="lazy"></div></div></div><span class="when">NOV.12 11:47</span><span class="by" style="background:#ddd url(img/av-R.jpg) center/cover" title="R"></span></figure>
+    <figure class="scat " style="--x:76%;--y:31vh;--r:-6deg;--d:0.34;--k:0.85;--i:6"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-10.jpg" alt="" loading="lazy"></div></div></div><span class="by" style="background:#ddd url(img/av-A.jpg) center/cover" title="A"></span></figure>
+    <figure class="scat " style="--x:86.5%;--y:49vh;--r:4deg;--d:0.2;--k:1.0;--i:7"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/app-sunset.jpg" alt="" loading="lazy"></div></div></div><span class="when">NOV.12 18:02</span><span class="by" style="background:#ddd url(img/av-M.jpg) center/cover" title="M"></span></figure>
+    <figure class="scat " style="--x:76.5%;--y:69vh;--r:-9deg;--d:0.42;--k:0.9;--i:8"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-05.jpg" alt="" loading="lazy"></div></div></div><span class="by" style="background:#ddd url(img/av-L.jpg) center/cover" title="L"></span></figure>
+    <figure class="scat " style="--x:85%;--y:88vh;--r:5deg;--d:0.28;--k:1.04;--i:9"><div class="pop sq-frame"><div class="sq"><div class="sq"><img src="img/photo-06.jpg" alt="" loading="lazy"></div></div></div><span class="by" style="background:#ddd url(img/av-R.jpg) center/cover" title="R"></span></figure>
   </div>
   <p class="hero-sub">Swap photos. Chat with friends &amp; moree.</p>
   <h1 class="slogan" aria-label="Where best friends belong.">
     <span class="l l1" aria-hidden="true"><span class="w"><span>Where</span></span> <span class="w"><span>best</span></span></span>
     <span class="l l2" aria-hidden="true"><span class="w"><span class="hl">friends<svg viewBox="0 0 300 30" preserveAspectRatio="none" aria-hidden="true"><path d="M6 20 C 80 8, 200 6, 294 16"/></svg></span></span> <span class="w"><span>belong.</span></span></span>
   </h1>
-  <div class="hero-get"><a class="mini dark" href="https://apps.apple.com/app/id6760106070"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9s-2-.9-3.3-.9c-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.3.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.8-1-2.8-4.3zM13.9 4.9c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg>iPhone</a><a class="mini" href="https://play.google.com/store/apps/details?id=com.cameracapsule.app"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18c0 .55.45 1 1 1h1v3.5a1.5 1.5 0 0 0 3 0V19h2v3.5a1.5 1.5 0 0 0 3 0V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8A1.5 1.5 0 0 0 2 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 3.5 8zm17 0A1.5 1.5 0 0 0 19 9.5v7a1.5 1.5 0 0 0 3 0v-7A1.5 1.5 0 0 0 20.5 8zm-4.97-5.84 1.3-1.3a.5.5 0 0 0-.7-.7l-1.48 1.48A5.96 5.96 0 0 0 12 1c-.96 0-1.86.23-2.66.63L7.85.15a.5.5 0 1 0-.7.7l1.31 1.31A5.97 5.97 0 0 0 6 7h12a5.97 5.97 0 0 0-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>Android</a></div>
+  <div class="hero-get"><div class="badges"><a class="badge" href="https://apps.apple.com/app/id6760106070" aria-label="Download on the App Store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9s-2-.9-3.3-.9c-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.3.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.8-1-2.8-4.3zM13.9 4.9c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg><span><small>Download on the</small><b>App Store</b></span></a><a class="badge" href="https://play.google.com/store/apps/details?id=com.cameracapsule.app" aria-label="Get it on Google Play"><svg viewBox="0 0 24 26" aria-hidden="true"><path d="M1.2.6 13.6 13 1.2 25.4C.8 25.1.6 24.6.6 24V2c0-.6.2-1.1.6-1.4z" fill="#2196F3"/><path d="M17.8 8.8 13.6 13 1.2.6c.4-.3 1-.4 1.6-.1z" fill="#4CAF50"/><path d="M17.8 17.2 2.8 25.5c-.6.3-1.2.2-1.6-.1L13.6 13z" fill="#F44336"/><path d="m22.5 11.4-4.7-2.6-4.2 4.2 4.2 4.2 4.7-2.6c1.3-.7 1.3-2.5 0-3.2z" fill="#FFC107"/></svg><span><small>GET IT ON</small><b>Google Play</b></span></a></div></div>
 
   <div class="zone" id="zone">
     <button class="ip ip-yellow" data-k="yellow" data-id="y" aria-label="Poke your moree"><img src="img/yellow.webp" alt=""><span class="say-b"></span></button>
@@ -433,7 +502,7 @@
         </div>
         <!-- post -->
         <div class="scr post" id="scrPost">
-          <div class="bar"><span class="ibtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span><span class="who"><span class="av av-txt" style="background:#7a64b8">M</span>Maya</span><span class="ibtn"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></div>
+          <div class="bar"><span class="ibtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span><span class="who"><span class="av av-txt" style="background:#ddd url(img/av-M.jpg) center/cover" title="M"></span>Maya</span><span class="ibtn"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg></span></div>
           <div class="mm">Maya's Moree</div>
           <div class="take" id="take"></div>
           <div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/app-cat.jpg" alt="A cat sitting under an old computer"></div></div></div>
@@ -484,7 +553,7 @@
         <li><span class="n">1</span><b>Share your code</b></li>
         <li><span class="n">2</span><b>Add your friends</b></li>
       </ol>
-      <div class="flist"><span class="pill">Friends (6)</span><div class="faces"><span style="background:#7a64b8">M</span><span style="background:#2f5b3b">L</span><span style="background:#e4542a">R</span><span style="background:#26252a">J</span><span style="background:#c9a100">T</span><span style="background:#5b8fb0">A</span></div></div>
+      <div class="flist"><span class="pill">Friends (6)</span><div class="faces"><span style="background:#ddd url(img/av-M.jpg) center/cover" title="M"></span><span style="background:#ddd url(img/av-L.jpg) center/cover" title="L"></span><span style="background:#ddd url(img/av-R.jpg) center/cover" title="R"></span><span style="background:#ddd url(img/av-J.jpg) center/cover" title="J"></span><span style="background:#ddd url(img/av-T.jpg) center/cover" title="T"></span><span style="background:#ddd url(img/av-A.jpg) center/cover" title="A"></span></div></div>
       <a class="btn" href="get.html" style="margin-top:30px">Get moree</a>
     </div>
     <div class="invite reveal" id="invite">
@@ -492,9 +561,9 @@
         <img src="img/ill-envelope.webp" alt="">
         <div class="cardclip" id="cards"><img class="cards" src="img/ill-cards.webp" alt="moree friends peeking out of an invite envelope"></div>
         <img class="front" src="img/ill-envelope.webp" alt="">
-        <span class="who"><span class="av av-txt" style="background:#7a64b8">M</span>Maya invited you</span>
+        <span class="who"><span class="av av-txt" style="background:#ddd url(img/av-M.jpg) center/cover" title="M"></span>Maya invited you</span>
       </div>
-      <div class="codebox"><div><small>Maya's moree ID</small><strong id="code">MIA7K2Q9</strong></div><button class="copy" id="copy">Copy</button></div>
+      <div class="codebox"><span class="av" style="background:#ddd url(img/av-M.jpg) center/cover"></span><div><small>Maya's moree ID</small><strong id="code">MIA7K2Q9</strong></div><span class="cb-how">Add it in the app<br>under <b>Friends → Add</b></span></div>
     </div>
   </div>
 </section>
@@ -503,25 +572,14 @@
 
 <!-- ═════════ 03 ═════════ -->
 <section class="days" id="days">
-  <div class="days-pin">
+  <div class="wrap">
     <div class="days-head reveal">
       <div><span class="eyebrow"><span class="num">03</span></span><h2 class="h2">Your days, together.</h2></div>
       <div><p class="lede">The big days. The nothing days.</p><p class="lede">Little pieces of life, strung together.</p></div>
     </div>
-    <div class="track" id="track">
-      <figure class="moment" style="margin:0"><span class="when dot">NOV.12 08:14</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-02.jpg" alt="Flowers on a café table"></div></div></div><span class="by" style="background:#2f5b3b">L</span></figure>
-      <figure class="moment" style="margin:0"><span class="when dot">NOV.12 09:02</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/app-breakfast.jpg" alt="Breakfast spread"></div></div></div><span class="by" style="background:#26252a">J</span></figure>
-      <figure class="moment" style="margin:0"><span class="when dot">NOV.12 11:47</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-03.jpg" alt="A London street corner"></div></div></div><span class="by" style="background:#e4542a">R</span></figure>
-      <figure class="moment" style="margin:0"><span class="when dot">NOV.12 12:30</span><div class="pic sq-frame"><div class="sq"><div class="sq note">saturday?<small>Theo · 12:30</small></div></div></div><span class="by" style="background:#c9a100">T</span></figure>
-      <figure class="moment" style="margin:0"><span class="when dot">NOV.12 13:20</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-07.jpg" alt="Friends sharing pizza"></div></div></div><span class="by" style="background:#c9a100">T</span></figure>
-      <figure class="moment" style="margin:0"><span class="when dot">NOV.12 14:44</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/app-cat.jpg" alt="A cat under an old computer"></div></div></div><span class="by" style="background:#7a64b8">M</span></figure>
-      <figure class="moment" style="margin:0"><span class="when dot">NOV.12 16:05</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-10.jpg" alt="A cat peeking through cardboard"></div></div></div><span class="by" style="background:#5b8fb0">A</span></figure>
-      <figure class="moment" style="margin:0"><span class="when dot">NOV.12 18:02</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/app-sunset.jpg" alt="Sunset through the blinds"></div></div></div><span class="by" style="background:#7a64b8">M</span></figure>
-      <figure class="moment" style="margin:0"><span class="when dot">NOV.12 22:41</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-06.jpg" alt="Dancing at a party"></div></div></div><span class="by" style="background:#e4542a">R</span></figure>
-      <figure class="moment" style="margin:0"><span class="when dot">NOV.13 00:10</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-08.jpg" alt="Friends cheersing red cups"></div></div></div><span class="by" style="background:#26252a">J</span></figure>
-      <span class="tag">a day in our lives.</span>
-    </div>
   </div>
+  <div class="dstrip reveal"><div class="dtrack"><figure class="dy"><span class="when dot">NOV.12 08:14</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-02.jpg" alt="Flowers on a café table"></div></div><span class="by" style="background:#ddd url(img/av-L.jpg) center/cover"></span></div></figure><figure class="dy"><span class="when dot">NOV.12 09:02</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/spare-cheers.jpg" alt="Friends raising glasses"></div></div><span class="by" style="background:#ddd url(img/av-J.jpg) center/cover"></span></div></figure><figure class="dy"><span class="when dot">NOV.12 11:47</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-03.jpg" alt="A London street corner"></div></div><span class="by" style="background:#ddd url(img/av-R.jpg) center/cover"></span></div></figure><figure class="dy"><span class="when dot">NOV.12 12:30</span><div class="pic sq-frame"><div class="sq"><div class="sq note">saturday?<small>Theo · 12:30</small></div></div><span class="by" style="background:#ddd url(img/av-T.jpg) center/cover"></span></div></figure><figure class="dy"><span class="when dot">NOV.12 13:20</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-07.jpg" alt="Friends sharing pizza"></div></div><span class="by" style="background:#ddd url(img/av-T.jpg) center/cover"></span></div></figure><figure class="dy"><span class="when dot">NOV.12 14:44</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/app-cat.jpg" alt="A cat under an old computer"></div></div><span class="by" style="background:#ddd url(img/av-M.jpg) center/cover"></span></div></figure><figure class="dy"><span class="when dot">NOV.12 16:05</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-10.jpg" alt="A cat peeking through cardboard"></div></div><span class="by" style="background:#ddd url(img/av-A.jpg) center/cover"></span></div></figure><figure class="dy"><span class="when dot">NOV.12 18:02</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/app-sunset.jpg" alt="Sunset through the blinds"></div></div><span class="by" style="background:#ddd url(img/av-M.jpg) center/cover"></span></div></figure><figure class="dy"><span class="when dot">NOV.12 22:41</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-06.jpg" alt="Dancing at a party"></div></div><span class="by" style="background:#ddd url(img/av-R.jpg) center/cover"></span></div></figure><figure class="dy"><span class="when dot">NOV.13 00:10</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-08.jpg" alt="Friends cheersing red cups"></div></div><span class="by" style="background:#ddd url(img/av-J.jpg) center/cover"></span></div></figure><figure class="dy" aria-hidden="true"><span class="when dot">NOV.12 08:14</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-02.jpg" alt="Flowers on a café table"></div></div><span class="by" style="background:#ddd url(img/av-L.jpg) center/cover"></span></div></figure><figure class="dy" aria-hidden="true"><span class="when dot">NOV.12 09:02</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/spare-cheers.jpg" alt="Friends raising glasses"></div></div><span class="by" style="background:#ddd url(img/av-J.jpg) center/cover"></span></div></figure><figure class="dy" aria-hidden="true"><span class="when dot">NOV.12 11:47</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-03.jpg" alt="A London street corner"></div></div><span class="by" style="background:#ddd url(img/av-R.jpg) center/cover"></span></div></figure><figure class="dy" aria-hidden="true"><span class="when dot">NOV.12 12:30</span><div class="pic sq-frame"><div class="sq"><div class="sq note">saturday?<small>Theo · 12:30</small></div></div><span class="by" style="background:#ddd url(img/av-T.jpg) center/cover"></span></div></figure><figure class="dy" aria-hidden="true"><span class="when dot">NOV.12 13:20</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-07.jpg" alt="Friends sharing pizza"></div></div><span class="by" style="background:#ddd url(img/av-T.jpg) center/cover"></span></div></figure><figure class="dy" aria-hidden="true"><span class="when dot">NOV.12 14:44</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/app-cat.jpg" alt="A cat under an old computer"></div></div><span class="by" style="background:#ddd url(img/av-M.jpg) center/cover"></span></div></figure><figure class="dy" aria-hidden="true"><span class="when dot">NOV.12 16:05</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-10.jpg" alt="A cat peeking through cardboard"></div></div><span class="by" style="background:#ddd url(img/av-A.jpg) center/cover"></span></div></figure><figure class="dy" aria-hidden="true"><span class="when dot">NOV.12 18:02</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/app-sunset.jpg" alt="Sunset through the blinds"></div></div><span class="by" style="background:#ddd url(img/av-M.jpg) center/cover"></span></div></figure><figure class="dy" aria-hidden="true"><span class="when dot">NOV.12 22:41</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-06.jpg" alt="Dancing at a party"></div></div><span class="by" style="background:#ddd url(img/av-R.jpg) center/cover"></span></div></figure><figure class="dy" aria-hidden="true"><span class="when dot">NOV.13 00:10</span><div class="pic sq-frame"><div class="sq"><div class="sq"><img src="img/photo-08.jpg" alt="Friends cheersing red cups"></div></div><span class="by" style="background:#ddd url(img/av-J.jpg) center/cover"></span></div></figure></div></div>
+  <p class="g-tag reveal">a day in our lives.</p>
 </section>
 
 <section class="album" id="album">
@@ -535,13 +593,12 @@
       <div class="lbl">Moree made you a new album</div>
       <p>You keep photographing this window around six. I put these 14 together.</p>
       <div class="fan" id="fan">
-        <div class="sq-frame f1"><div class="sq" style="width:100%;height:100%"><div class="sq"><img src="img/sunset-window.jpg" alt=""></div></div></div>
-        <div class="sq-frame f2"><div class="sq" style="width:100%;height:100%"><div class="sq"><img src="img/sunset-rooftop.jpg" alt=""></div></div></div>
-        <div class="sq-frame f3"><div class="sq" style="width:100%;height:100%"><div class="sq"><img src="img/app-sunset.jpg" alt="Sunset through the same window"></div></div></div>
+        <div class="sq-frame f1"><div class="sq" style="width:100%;height:100%"><div class="sq"><img src="img/window-a.jpg" alt=""></div></div></div>
+        <div class="sq-frame f2"><div class="sq" style="width:100%;height:100%"><div class="sq"><img src="img/window-c.jpg" alt=""></div></div></div>
+        <div class="sq-frame f3"><div class="sq" style="width:100%;height:100%"><div class="sq"><img src="img/window-b.jpg" alt="Sunset through the same window"></div></div></div>
       </div>
       <h3>Same window, 6 pm</h3>
       <div class="cnt">14 photos</div>
-      <div class="two"><a class="btn ghost sm" href="#album">View album</a><a class="btn sm" href="#album">Keep album</a></div>
     </div>
   </div>
 </section>
@@ -606,5 +663,7 @@
 
 <script src="vendor/matter.min.js"></script>
 <script src="home.js"></script>
+
+
 </body>
 </html>
